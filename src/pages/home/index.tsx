@@ -59,17 +59,13 @@ const Home = () => {
       ) : (
         <Container>
           <LogoTitle level="h1" />
-          <Container
-            maxWidth="lg"
-            sx={{ display: "flex", justifyContent: "center" }}
-          >
+          <Container maxWidth="lg">
             <Stack
               spacing={{ xs: 1, sm: 2 }}
               direction="row"
               useFlexGap
               flexWrap="wrap"
-              justifyContent="flex-start"
-              alignContent="center"
+              justifyContent="space-around"
             >
               {categories?.map((d) => (
                 <CustomCard
