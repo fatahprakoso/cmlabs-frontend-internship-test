@@ -42,7 +42,7 @@ const MealList = () => {
         setMeals(preprocessedMeals);
       })
       .finally(() => setLoading(() => false));
-  }, []);
+  }, [mealCategory]);
 
   return (
     <>

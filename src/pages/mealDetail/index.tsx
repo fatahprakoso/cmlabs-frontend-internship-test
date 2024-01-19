@@ -31,16 +31,16 @@ const MealDetail = () => {
         mealFetched = mealFetched.meals[0];
 
         const preprocessedMeal: IMeal = {
-          id: mealFetched.idMeal,
-          name: mealFetched.strMeal,
-          img: mealFetched.strMealThumb,
-          area: mealFetched.strArea,
-          category: mealFetched.strCategory,
-          drinkAlternate: mealFetched.strDrintAlternate,
-          source: mealFetched.strSource,
-          youtube: mealFetched.strYoutube,
-          instruction: mealFetched.strInstructions,
-          tags: mealFetched.strTags.split(","),
+          id: mealFetched?.idMeal,
+          name: mealFetched?.strMeal,
+          img: mealFetched?.strMealThumb,
+          area: mealFetched?.strArea,
+          category: mealFetched?.strCategory,
+          drinkAlternate: mealFetched?.strDrintAlternate,
+          source: mealFetched?.strSource,
+          youtube: mealFetched?.strYoutube,
+          instruction: mealFetched?.strInstructions,
+          tags: mealFetched?.strTags?.split(","),
           ingridients: [],
         };
 
@@ -58,6 +58,10 @@ const MealDetail = () => {
       })
       .finally(() => setLoading(() => false));
   }, []);
+
+  setTimeout(() => {
+    console.log(meal);
+  }, 500);
 
   return (
     <>
