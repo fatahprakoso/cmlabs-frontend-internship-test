@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 import LogoTitle from "../../components/general/LogoTitle";
 import CustomCard from "../../components/general/CustomCard";
+import LoadingSpinner from "../../components/splash/LoadingSpinner";
 
 import { Container, Stack } from "@mui/material";
 
@@ -36,7 +37,10 @@ const Home = () => {
           (c: any) => ({
             id: c.idCategory,
             name: c.strCategory,
-            description: c.strCategoryDescription,
+            description:
+              c.strCategoryDescription?.length > 200
+                ? c.strCategoryDescription?.substring(0, 196) + " ..."
+                : c.strCategoryDescription,
             img: c.strCategoryThumb,
           })
         );
@@ -48,22 +52,36 @@ const Home = () => {
 
   return (
     <>
-      <Container>
-        <LogoTitle level="h1" />
-        <Container maxWidth="lg">
-          <Stack
-            spacing={{ xs: 1, sm: 2 }}
-            direction="row"
-            useFlexGap
-            flexWrap="wrap"
-            justifyContent="space-around"
-          >
-            {categories?.map((d) => (
-              <CustomCard data={d} hasDesc={true} link={`meals?c=${d.name}`} />
-            ))}
-          </Stack>
+      {loading ? (
+        <Container sx={{ display: "flex", justifyContent: "center" }}>
+          <LoadingSpinner />
         </Container>
-      </Container>
+      ) : (
+        <Container>
+          <LogoTitle level="h1" />
+          <Container
+            maxWidth="lg"
+            sx={{ display: "flex", justifyContent: "center" }}
+          >
+            <Stack
+              spacing={{ xs: 1, sm: 2 }}
+              direction="row"
+              useFlexGap
+              flexWrap="wrap"
+              justifyContent="flex-start"
+              alignContent="center"
+            >
+              {categories?.map((d) => (
+                <CustomCard
+                  data={d}
+                  hasDesc={true}
+                  link={`meals?c=${d.name}`}
+                />
+              ))}
+            </Stack>
+          </Container>
+        </Container>
+      )}
     </>
   );
 };

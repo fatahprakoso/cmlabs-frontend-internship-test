@@ -4,8 +4,7 @@ import { useSearchParams } from "react-router-dom";
 import { getMealByCategory } from "../../api/GetMealsByCategory";
 import CustomCard from "../../components/general/CustomCard";
 import IMeal from "../../models/IMeal";
-import IMealCategory from "../../models/IMealCategory";
-import LogoTitle from "../../components/general/LogoTitle";
+import LoadingSpinner from "../../components/splash/LoadingSpinner";
 
 const MealList = () => {
   const url = useSearchParams();
@@ -46,21 +45,27 @@ const MealList = () => {
 
   return (
     <>
-      <Container>
-        <Container maxWidth="lg">
-          <Stack
-            spacing={{ xs: 1, sm: 2 }}
-            direction="row"
-            useFlexGap
-            flexWrap="wrap"
-            justifyContent="space-around"
-          >
-            {meals?.map((d) => (
-              <CustomCard data={d} link={`/meal/${d.id}`} />
-            ))}
-          </Stack>
+      {loading ? (
+        <Container sx={{ display: "flex", justifyContent: "center" }}>
+          <LoadingSpinner />
         </Container>
-      </Container>
+      ) : (
+        <Container>
+          <Container maxWidth="lg">
+            <Stack
+              spacing={{ xs: 1, sm: 2 }}
+              direction="row"
+              useFlexGap
+              flexWrap="wrap"
+              justifyContent="space-around"
+            >
+              {meals?.map((d) => (
+                <CustomCard data={d} link={`/meal/${d.id}`} />
+              ))}
+            </Stack>
+          </Container>
+        </Container>
+      )}
     </>
   );
 };

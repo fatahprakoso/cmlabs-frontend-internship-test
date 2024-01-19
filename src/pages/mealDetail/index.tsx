@@ -1,4 +1,6 @@
 import { Container, Stack, Grid, Typography, Chip } from "@mui/material";
+import LoadingSpinner from "../../components/splash/LoadingSpinner";
+
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import IMeal from "../../models/IMeal";
@@ -65,83 +67,89 @@ const MealDetail = () => {
 
   return (
     <>
-      <Container>
-        <Grid container spacing={2} direction="row" justifyContent="center">
-          <Grid item xs={12} order={{ md: 2 }}>
-            <Typography
-              variant="h2"
-              sx={{
-                fontFamily: "Lemon",
-                color: "#9DBC98",
-              }}
+      {loading ? (
+        <Container sx={{ display: "flex", justifyContent: "center" }}>
+          <LoadingSpinner />
+        </Container>
+      ) : (
+        <Container>
+          <Grid container spacing={2} direction="row" justifyContent="center">
+            <Grid item xs={12} order={{ md: 2 }}>
+              <Typography
+                variant="h2"
+                sx={{
+                  fontFamily: "Lemon",
+                  color: "#9DBC98",
+                }}
+              >
+                {meal?.name}
+              </Typography>
+            </Grid>
+            <Grid item xs={12} sm={12} md={12} order={{ md: 1 }}>
+              <img
+                src={meal?.img}
+                alt="get ur meals! assets"
+                style={{ objectFit: "cover", width: "100%", height: "400px" }}
+              />
+            </Grid>
+            <Grid item xs={12} order={{ md: 3 }}>
+              <Stack direction="row" spacing={1}>
+                <Chip
+                  label={meal?.category}
+                  sx={{ backgroundColor: "#ecdab5", color: "#63898a" }}
+                />
+                <Chip
+                  label={meal?.area}
+                  sx={{ backgroundColor: "#63898a", color: "#ecdab5" }}
+                />
+                {meal?.tags?.map((d) => (
+                  <Chip label={d} color="primary" />
+                ))}
+              </Stack>
+            </Grid>
+            <Grid
+              item
+              xs={12}
+              sm={5}
+              md={3}
+              order={{ md: 4 }}
+              alignItems="flex-start"
             >
-              {meal?.name}
-            </Typography>
-          </Grid>
-          <Grid item xs={12} sm={12} md={12} order={{ md: 1 }}>
-            <img
-              src={meal?.img}
-              alt="get ur meals! assets"
-              style={{ objectFit: "cover", width: "100%", height: "400px" }}
-            />
-          </Grid>
-          <Grid item xs={12} order={{ md: 3 }}>
-            <Stack direction="row" spacing={1}>
-              <Chip
-                label={meal?.category}
-                sx={{ backgroundColor: "#ecdab5", color: "#63898a" }}
-              />
-              <Chip
-                label={meal?.area}
-                sx={{ backgroundColor: "#63898a", color: "#ecdab5" }}
-              />
-              {meal?.tags?.map((d) => (
-                <Chip label={d} color="primary" />
-              ))}
-            </Stack>
-          </Grid>
-          <Grid
-            item
-            xs={12}
-            sm={5}
-            md={3}
-            order={{ md: 4 }}
-            alignItems="flex-start"
-          >
-            <div style={{ height: "100%" }}>
-              <Typography
-                variant="h3"
-                sx={{
-                  color: "#63898a",
-                }}
-              >
-                Recipes
-              </Typography>
-              {meal?.ingridients?.map((d, i) => (
-                <Typography sx={{ color: "rgba(48,51,41,1)" }}>
-                  {i + 1}. {d}
+              <div style={{ height: "100%" }}>
+                <Typography
+                  variant="h3"
+                  sx={{
+                    color: "#63898a",
+                  }}
+                >
+                  Recipes
                 </Typography>
-              ))}
-            </div>
+                {meal?.ingridients?.map((d, i) => (
+                  <Typography sx={{ color: "rgba(48,51,41,1)" }}>
+                    {i + 1}. {d}
+                  </Typography>
+                ))}
+              </div>
+            </Grid>
+            <Grid item xs={12} sm={7} md={9} order={{ md: 5 }}>
+              <div style={{ height: "100%" }}>
+                <Typography
+                  variant="h3"
+                  sx={{
+                    color: "#63898a",
+                  }}
+                >
+                  Instructions
+                </Typography>
+                <Typography>{meal?.instruction}</Typography>
+              </div>
+            </Grid>
+            <Grid item xs={12} sm={10} md={8} order={{ md: 6 }}>
+              <ReactPlayer url={meal?.youtube} width="100%" height="400px" />
+            </Grid>
           </Grid>
-          <Grid item xs={12} sm={7} md={9} order={{ md: 5 }}>
-            <div style={{ height: "100%" }}>
-              <Typography
-                variant="h3"
-                sx={{
-                  color: "#63898a",
-                }}
-              >
-                Instructions
-              </Typography>
-              <Typography>{meal?.instruction}</Typography>
-            </div>
-          </Grid>
-          <Grid item xs={12} sm={10} md={8} order={{ md: 6 }}>
-            <ReactPlayer url={meal?.youtube} width="100%" height="400px" />
-          </Grid>
-        </Grid>
-      </Container>
+        </Container>
+      )}
     </>
   );
 };
